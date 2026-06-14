@@ -1,0 +1,123 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Design tokens ─────────────────────────────────────────────────── */
+@layer base {
+  :root {
+    /* Light theme — clean, paper-like, Apple/Notion calm. */
+    --bg: 247 247 249;
+    --surface: 255 255 255;
+    --card: 255 255 255;
+    --elevated: 255 255 255;
+    --border: 226 228 233;
+    --muted: 241 242 245;
+    --fg: 17 19 24;
+    --subtle: 110 116 128;
+    --primary: 37 99 235;
+    --primary-fg: 255 255 255;
+    --accent: 234 88 12;
+    --success: 22 163 74;
+    --danger: 220 38 38;
+  }
+
+  .dark {
+    /* Dark theme — deep near-black, Linear/Stripe night. */
+    --bg: 9 9 12;
+    --surface: 17 17 22;
+    --card: 20 20 27;
+    --elevated: 28 28 37;
+    --border: 38 38 48;
+    --muted: 30 30 39;
+    --fg: 237 238 242;
+    --subtle: 148 152 165;
+    --primary: 59 130 246;
+    --primary-fg: 255 255 255;
+    --accent: 251 146 60;
+    --success: 34 197 94;
+    --danger: 248 113 113;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-bg text-fg font-sans antialiased;
+    overscroll-behavior-y: none;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+
+  /* Respect iOS safe areas for the fixed bottom nav. */
+  .pb-safe {
+    padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+  }
+  .pt-safe {
+    padding-top: max(0.75rem, env(safe-area-inset-top));
+  }
+
+  input,
+  textarea,
+  button,
+  select {
+    font: inherit;
+  }
+
+  /* Hide number-input spinners — we parse free text. */
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+@layer components {
+  .glass {
+    background-color: rgb(var(--card) / 0.72);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+  }
+
+  .card {
+    @apply rounded-2xl border border-border bg-card shadow-card;
+  }
+
+  .input-base {
+    @apply w-full rounded-xl border border-border bg-surface px-4 text-fg
+      placeholder:text-subtle/70 outline-none transition
+      focus:border-primary/70 focus:ring-4 focus:ring-primary/15;
+  }
+
+  .label {
+    @apply mb-1.5 block text-[13px] font-medium text-subtle;
+  }
+
+  /* Subtle gradient mesh behind the app for premium depth. */
+  .app-bg::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(60rem 40rem at 110% -10%, rgb(var(--primary) / 0.08), transparent 60%),
+      radial-gradient(50rem 40rem at -10% 0%, rgb(var(--accent) / 0.06), transparent 55%);
+  }
+}
+
+/* Thin, unobtrusive scrollbars. */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--border));
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
