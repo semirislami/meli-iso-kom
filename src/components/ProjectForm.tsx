@@ -58,11 +58,11 @@ export function ProjectForm({
     <Sheet
       open={open}
       onClose={onClose}
-      title={mode === 'create' ? 'New project' : 'Edit project'}
+      title={mode === 'create' ? 'Projekt i ri' : 'Ndrysho projektin'}
       footer={
         <div className="flex gap-3">
           <Button variant="secondary" block onClick={onClose}>
-            Cancel
+            Anulo
           </Button>
           <Button
             block
@@ -71,45 +71,45 @@ export function ProjectForm({
               if (canSave) onSubmit(draft)
             }}
           >
-            {mode === 'create' ? 'Create project' : 'Save changes'}
+            {mode === 'create' ? 'Krijo projektin' : 'Ruaj ndryshimet'}
           </Button>
         </div>
       }
     >
       <div className="space-y-4">
-        <Field label="Project name *">
+        <Field label="Emri i projektit *">
           <Input
             autoFocus
             value={draft.name}
             onChange={(e) => set({ name: e.target.value })}
-            placeholder="Apartment renovation — Maršala Tita 12"
+            placeholder="Renovim banese — Rruga Ilindenit 12"
             sizing="lg"
           />
         </Field>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <Field label="Client">
+          <Field label="Klienti">
             <Input
               value={draft.client}
               onChange={(e) => set({ client: e.target.value })}
-              placeholder="Client name"
+              placeholder="Emri i klientit"
             />
           </Field>
-          <Field label="Location">
+          <Field label="Vendndodhja">
             <Input
               value={draft.location}
               onChange={(e) => set({ location: e.target.value })}
-              placeholder="City / address"
+              placeholder="Qyteti / adresa"
             />
           </Field>
         </div>
-        <Field label="Date">
+        <Field label="Data">
           <Input type="date" value={draft.date} onChange={(e) => set({ date: e.target.value })} />
         </Field>
-        <Field label="Notes">
+        <Field label="Shënime">
           <Textarea
             value={draft.notes}
             onChange={(e) => set({ notes: e.target.value })}
-            placeholder="Anything worth remembering about this job…"
+            placeholder="Çdo gjë me vlerë për ta mbajtur mend për këtë punë…"
           />
         </Field>
       </div>

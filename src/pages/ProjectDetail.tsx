@@ -26,14 +26,14 @@ import { SectionCard } from '../components/SectionCard'
 import { ProjectForm, type ProjectDraft } from '../components/ProjectForm'
 
 const SECTION_PRESETS = [
-  'Ground Floor',
-  'Floor 1',
-  'Floor 2',
-  'Basement',
-  'Roof',
-  'Facade',
-  'Bathroom',
-  'Kitchen',
+  'Përdhesa',
+  'Kati 1',
+  'Kati 2',
+  'Bodrumi',
+  'Çatia',
+  'Fasada',
+  'Banjo',
+  'Kuzhina',
 ]
 
 export function ProjectDetail() {
@@ -53,9 +53,9 @@ export function ProjectDetail() {
   if (!project) {
     return (
       <div className="flex flex-col items-center justify-center py-24 text-center">
-        <p className="text-subtle">Project not found.</p>
+        <p className="text-subtle">Projekti nuk u gjet.</p>
         <Button className="mt-4" onClick={() => navigate('/projects')}>
-          Back to projects
+          Kthehu te projektet
         </Button>
       </div>
     )
@@ -74,7 +74,7 @@ export function ProjectDetail() {
   const handleEdit = (draft: ProjectDraft) => {
     updateProject(project.id, draft)
     setEditOpen(false)
-    toast('Project updated', 'success')
+    toast('Projekti u përditësua', 'success')
   }
 
   return (
@@ -82,21 +82,21 @@ export function ProjectDetail() {
       {/* Top bar */}
       <header className="sticky top-0 z-30 -mx-4 mb-3 px-4 pt-safe sm:-mx-6 sm:px-6">
         <div className="glass -mx-1 flex items-center gap-1 rounded-b-2xl border-b border-border px-1 py-2">
-          <IconButton label="Back" onClick={() => navigate(-1)}>
+          <IconButton label="Prapa" onClick={() => navigate(-1)}>
             <ChevronLeft size={22} />
           </IconButton>
           <div className="min-w-0 flex-1">
             <div className="truncate font-semibold">{project.name}</div>
           </div>
-          <IconButton label="Edit" onClick={() => setEditOpen(true)}>
+          <IconButton label="Ndrysho" onClick={() => setEditOpen(true)}>
             <Pencil size={18} />
           </IconButton>
           <IconButton
-            label="Duplicate"
+            label="Kopjo"
             onClick={() => {
               const copy = duplicateProject(project.id)
               if (copy) {
-                toast('Duplicated', 'success')
+                toast('U kopjua', 'success')
                 navigate(`/projects/${copy.id}`)
               }
             }}
@@ -113,16 +113,16 @@ export function ProjectDetail() {
       >
         <div className="flex items-end justify-between">
           <div>
-            <p className="text-[13px] font-medium text-subtle">Project total</p>
+            <p className="text-[13px] font-medium text-subtle">Totali i projektit</p>
             <div className="mt-1 text-4xl font-extrabold tracking-tight tabular-nums text-fg">
               {formatValue(total, settings)}
             </div>
             <div className="mt-2 flex items-center gap-3 text-[12px] text-subtle">
               <span className="inline-flex items-center gap-1">
-                <Layers size={13} /> {project.sections.length} sections
+                <Layers size={13} /> {project.sections.length} seksione
               </span>
               <span>·</span>
-              <span>{projectMeasurementCount(project)} measurements</span>
+              <span>{projectMeasurementCount(project)} matje</span>
             </div>
           </div>
           <Button
@@ -144,11 +144,11 @@ export function ProjectDetail() {
           <Calculator size={22} />
         </div>
         <div className="min-w-0 flex-1">
-          <div className="font-semibold">Cost &amp; Profit</div>
+          <div className="font-semibold">Kostoja &amp; Fitimi</div>
           <div className="text-[13px] text-subtle">
             {project.calculations && project.calculations.length > 0
-              ? `${project.calculations.length} calculation${project.calculations.length === 1 ? '' : 's'} · materials, expenses, profit`
-              : 'Materials, expenses & profit from your m²'}
+              ? `${project.calculations.length} llogaritje · materiale, shpenzime, fitim`
+              : 'Materiale, shpenzime & fitim nga m²-të e tua'}
           </div>
         </div>
         <ChevronRight size={20} className="shrink-0 text-subtle" />
@@ -159,16 +159,16 @@ export function ProjectDetail() {
         onClick={() => setShowInfo((v) => !v)}
         className="mb-3 flex w-full items-center justify-between rounded-xl px-1 text-sm text-subtle"
       >
-        <span className="font-medium">Project details</span>
-        <span className="text-primary">{showInfo ? 'Hide' : 'Show'}</span>
+        <span className="font-medium">Detajet e projektit</span>
+        <span className="text-primary">{showInfo ? 'Fshih' : 'Shfaq'}</span>
       </button>
       {showInfo && (
         <Card className="mb-4 space-y-2.5 p-4 text-sm">
-          <InfoRow icon={<User size={15} />} label="Client" value={project.client} />
-          <InfoRow icon={<MapPin size={15} />} label="Location" value={project.location} />
-          <InfoRow icon={<Calendar size={15} />} label="Date" value={formatDate(project.date)} />
+          <InfoRow icon={<User size={15} />} label="Klienti" value={project.client} />
+          <InfoRow icon={<MapPin size={15} />} label="Vendndodhja" value={project.location} />
+          <InfoRow icon={<Calendar size={15} />} label="Data" value={formatDate(project.date)} />
           {project.notes && (
-            <InfoRow icon={<StickyNote size={15} />} label="Notes" value={project.notes} />
+            <InfoRow icon={<StickyNote size={15} />} label="Shënime" value={project.notes} />
           )}
         </Card>
       )}
@@ -187,7 +187,7 @@ export function ProjectDetail() {
             value={newSection}
             onChange={(e) => setNewSection(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleAddSection(newSection)}
-            placeholder="New section name…"
+            placeholder="Emër i seksionit të ri…"
           />
           <Button
             onClick={() => handleAddSection(newSection)}

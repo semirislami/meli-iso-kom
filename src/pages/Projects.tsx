@@ -12,10 +12,10 @@ import { ProjectForm, type ProjectDraft } from '../components/ProjectForm'
 type SortKey = 'updated' | 'name' | 'date' | 'largest'
 
 const sortOptions: { key: SortKey; label: string }[] = [
-  { key: 'updated', label: 'Recent' },
-  { key: 'date', label: 'Date' },
-  { key: 'name', label: 'Name' },
-  { key: 'largest', label: 'Largest' },
+  { key: 'updated', label: 'Të fundit' },
+  { key: 'date', label: 'Data' },
+  { key: 'name', label: 'Emri' },
+  { key: 'largest', label: 'Më i madhi' },
 ]
 
 export function Projects() {
@@ -62,11 +62,11 @@ export function Projects() {
     <div className="space-y-4 py-2">
       <header className="flex items-center justify-between pt-2">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Projects</h1>
-          <p className="text-sm text-subtle">{projects.length} total</p>
+          <h1 className="text-2xl font-bold tracking-tight">Projektet</h1>
+          <p className="text-sm text-subtle">{projects.length} gjithsej</p>
         </div>
         <Button size="sm" onClick={() => setFormOpen(true)}>
-          <Plus size={18} /> New
+          <Plus size={18} /> I ri
         </Button>
       </header>
 
@@ -79,14 +79,14 @@ export function Projects() {
         <Input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search name, client, location…"
+          placeholder="Kërko emër, klient, vendndodhje…"
           className="pl-11 pr-10"
         />
         {query && (
           <button
             onClick={() => setQuery('')}
             className="absolute right-3 top-1/2 -translate-y-1/2 text-subtle hover:text-fg"
-            aria-label="Clear search"
+            aria-label="Pastro kërkimin"
           >
             <X size={18} />
           </button>
@@ -116,19 +116,19 @@ export function Projects() {
       {projects.length === 0 ? (
         <EmptyState
           icon={<FolderKanban size={26} />}
-          title="No projects yet"
-          description="Create your first project to start measuring."
+          title="Ende pa projekte"
+          description="Krijo projektin tënd të parë për të filluar matjet."
           action={
             <Button onClick={() => setFormOpen(true)}>
-              <Plus size={18} /> Create project
+              <Plus size={18} /> Krijo projekt
             </Button>
           }
         />
       ) : filtered.length === 0 ? (
         <EmptyState
           icon={<Search size={26} />}
-          title="No matches"
-          description={`Nothing matches "${query}". Try a different search.`}
+          title="S'ka përputhje"
+          description={`Asgjë nuk përputhet me "${query}". Provo një kërkim tjetër.`}
         />
       ) : (
         <div className="space-y-2.5">
@@ -139,16 +139,16 @@ export function Projects() {
                 project={p}
                 onDuplicate={() => {
                   duplicateProject(p.id)
-                  toast('Project duplicated', 'success')
+                  toast('Projekti u kopjua', 'success')
                 }}
                 onDelete={() =>
                   ask({
-                    title: 'Delete project?',
-                    message: `"${p.name}" will be permanently deleted. This cannot be undone.`,
-                    confirmLabel: 'Delete',
+                    title: 'Të fshihet projekti?',
+                    message: `"${p.name}" do të fshihet përgjithmonë. Ky veprim nuk mund të zhbëhet.`,
+                    confirmLabel: 'Fshij',
                     onConfirm: () => {
                       deleteProject(p.id)
-                      toast('Project deleted')
+                      toast('Projekti u fshi')
                     },
                   })
                 }

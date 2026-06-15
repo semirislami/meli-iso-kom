@@ -34,7 +34,7 @@ export function Dashboard() {
   }
 
   const hour = new Date().getHours()
-  const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening'
+  const greeting = hour < 12 ? 'Mirëmëngjes' : hour < 18 ? 'Mirëdita' : 'Mirëmbrëma'
 
   return (
     <div className="space-y-6 py-2">
@@ -42,7 +42,7 @@ export function Dashboard() {
       <header className="flex items-center justify-between pt-2">
         <div>
           <p className="text-sm text-subtle">{greeting} 👋</p>
-          <h1 className="text-2xl font-bold tracking-tight">{settings.companyName || 'Dashboard'}</h1>
+          <h1 className="text-2xl font-bold tracking-tight">{settings.companyName || 'Paneli'}</h1>
         </div>
         <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/12 text-primary">
           <Ruler size={22} />
@@ -51,35 +51,35 @@ export function Dashboard() {
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-3">
-        <StatCard icon={<FolderKanban size={18} />} label="Projects" value={String(stats.count)} />
+        <StatCard icon={<FolderKanban size={18} />} label="Projekte" value={String(stats.count)} />
         <StatCard
           icon={<Ruler size={18} />}
-          label="Total measured"
+          label="Matur gjithsej"
           value={formatValue(stats.totalArea, settings)}
           accent
         />
         <StatCard
           icon={<Hash size={18} />}
-          label="Entries"
+          label="Hyrje"
           value={String(stats.totalMeasurements)}
         />
       </div>
 
       {/* Primary CTA */}
       <Button size="lg" block onClick={() => setFormOpen(true)} className="shadow-glow">
-        <Plus size={22} strokeWidth={2.5} /> New project
+        <Plus size={22} strokeWidth={2.5} /> Projekt i ri
       </Button>
 
       {/* Recent */}
       <section className="space-y-3">
         <div className="flex items-center justify-between px-1">
-          <h2 className="text-sm font-semibold text-subtle">Recently updated</h2>
+          <h2 className="text-sm font-semibold text-subtle">Përditësuar së fundi</h2>
           {projects.length > 0 && (
             <button
               onClick={() => navigate('/projects')}
               className="inline-flex items-center gap-1 text-sm font-medium text-primary"
             >
-              All projects <ArrowRight size={15} />
+              Të gjitha <ArrowRight size={15} />
             </button>
           )}
         </div>
@@ -87,11 +87,11 @@ export function Dashboard() {
         {recent.length === 0 ? (
           <EmptyState
             icon={<Sparkles size={26} />}
-            title="No projects yet"
-            description="Create your first project and start measuring faster than your notebook."
+            title="Ende pa projekte"
+            description="Krijo projektin tënd të parë dhe fillo të masësh më shpejt se në bllok."
             action={
               <Button onClick={() => setFormOpen(true)}>
-                <Plus size={18} /> Create project
+                <Plus size={18} /> Krijo projekt
               </Button>
             }
           />
@@ -111,7 +111,7 @@ export function Dashboard() {
                   <div className="min-w-0 flex-1">
                     <div className="truncate font-semibold">{p.name}</div>
                     <div className="truncate text-[13px] text-subtle">
-                      {p.client || 'No client'} · {relativeTime(p.updatedAt)}
+                      {p.client || 'Pa klient'} · {relativeTime(p.updatedAt)}
                     </div>
                   </div>
                   <div className="shrink-0 text-right">

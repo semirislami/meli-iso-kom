@@ -48,7 +48,7 @@ export function formatDate(iso: string | number): string {
   if (!iso) return '—'
   const d = typeof iso === 'number' ? new Date(iso) : new Date(iso + 'T00:00:00')
   if (Number.isNaN(d.getTime())) return String(iso)
-  return d.toLocaleDateString(undefined, {
+  return d.toLocaleDateString('sq-AL', {
     day: '2-digit',
     month: 'short',
     year: 'numeric',
@@ -58,12 +58,12 @@ export function formatDate(iso: string | number): string {
 export function relativeTime(ts: number): string {
   const diff = Date.now() - ts
   const min = Math.round(diff / 60000)
-  if (min < 1) return 'just now'
-  if (min < 60) return `${min} min ago`
+  if (min < 1) return 'tani'
+  if (min < 60) return `${min} min më parë`
   const hr = Math.round(min / 60)
-  if (hr < 24) return `${hr} h ago`
+  if (hr < 24) return `${hr} orë më parë`
   const day = Math.round(hr / 24)
-  if (day < 30) return `${day} d ago`
+  if (day < 30) return `${day} ditë më parë`
   return formatDate(ts)
 }
 

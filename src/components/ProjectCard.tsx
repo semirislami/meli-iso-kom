@@ -34,7 +34,7 @@ export function ProjectCard({
       <button
         onClick={() => navigate(`/projects/${project.id}`)}
         className="absolute inset-0 z-0"
-        aria-label={`Open ${project.name}`}
+        aria-label={`Hap ${project.name}`}
       />
       <div className="relative z-10 flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
@@ -63,22 +63,22 @@ export function ProjectCard({
       <div className="relative z-10 mt-3 flex items-center justify-between border-t border-border pt-3">
         <div className="flex items-center gap-3 text-[12px] text-subtle">
           <span className="inline-flex items-center gap-1">
-            <Layers size={13} /> {project.sections.length} sections
+            <Layers size={13} /> {project.sections.length} seksione
           </span>
           <span>·</span>
-          <span>{count} measurements</span>
+          <span>{count} matje</span>
         </div>
         <div className="flex items-center gap-0.5">
           <IconButton
-            label="Export PDF"
+            label="Eksporto PDF"
             onClick={() => exportProjectPdf(project, settingsSnapshot(settings))}
           >
             <FileDown size={17} />
           </IconButton>
-          <IconButton label="Duplicate" onClick={onDuplicate}>
+          <IconButton label="Kopjo" onClick={onDuplicate}>
             <Copy size={17} />
           </IconButton>
-          <IconButton label="Delete" tone="danger" onClick={onDelete}>
+          <IconButton label="Fshij" tone="danger" onClick={onDelete}>
             <Trash2 size={17} />
           </IconButton>
         </div>

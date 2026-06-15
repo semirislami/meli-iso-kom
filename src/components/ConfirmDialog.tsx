@@ -48,7 +48,7 @@ export function ConfirmDialog({
             <p className="mt-1.5 text-sm text-subtle">{state.message}</p>
             <div className="mt-6 flex gap-3">
               <Button variant="secondary" block onClick={onClose}>
-                Cancel
+                Anulo
               </Button>
               <Button
                 variant={state.tone === 'primary' ? 'primary' : 'danger'}
@@ -58,7 +58,7 @@ export function ConfirmDialog({
                   onClose()
                 }}
               >
-                {state.confirmLabel ?? 'Confirm'}
+                {state.confirmLabel ?? 'Konfirmo'}
               </Button>
             </div>
           </motion.div>

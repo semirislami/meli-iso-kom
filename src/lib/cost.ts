@@ -9,10 +9,10 @@ export const DEFAULT_EXCHANGE_RATE = 61.5 // 1 EUR = 61.5 MKD
 
 export const WORK_TYPES: { key: WorkType; label: string; available: boolean }[] = [
   { key: 'mallter', label: 'Mallter', available: true },
-  { key: 'fasada', label: 'Fasada', available: false },
+  { key: 'fasada', label: 'Fasadë', available: false },
   { key: 'boje', label: 'Bojë', available: false },
   { key: 'izolim', label: 'Izolim', available: false },
-  { key: 'other', label: 'Other', available: false },
+  { key: 'other', label: 'Tjetër', available: false },
 ]
 
 /** Material preset for a work type. Mallter is the only one defined so far. */
@@ -25,28 +25,28 @@ export function materialsForWorkType(workType: WorkType): MaterialLine[] {
           key: 'mallter',
           name: 'Mallter',
           mode: 'auto',
-          unitLabel: 'bag',
-          consumptionPerM2: 20, // kg per m²
-          unitSize: 30, // kg per bag
-          pricePerUnit: 180.5, // MKD per bag
+          unitLabel: 'thes',
+          consumptionPerM2: 20, // kg për m²
+          unitSize: 30, // kg për thes
+          pricePerUnit: 180.5, // MKD për thes
         },
         {
           id: uid(),
           key: 'llajsne',
           name: 'Llajsne',
           mode: 'manual',
-          unitLabel: 'piece',
+          unitLabel: 'copë',
           quantity: 0,
-          pricePerUnit: 70, // MKD per piece
+          pricePerUnit: 70, // MKD për copë
         },
         {
           id: uid(),
           key: 'mp75',
           name: 'MP75',
           mode: 'manual',
-          unitLabel: 'unit',
+          unitLabel: 'njësi',
           quantity: 0,
-          pricePerUnit: 480, // MKD per unit
+          pricePerUnit: 480, // MKD për njësi
         },
       ]
     default:

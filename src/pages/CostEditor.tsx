@@ -33,9 +33,9 @@ export function CostEditor() {
   if (!project || !calc) {
     return (
       <div className="flex flex-col items-center justify-center py-24 text-center">
-        <p className="text-subtle">Calculation not found.</p>
+        <p className="text-subtle">Llogaritja nuk u gjet.</p>
         <Button className="mt-4" onClick={() => navigate(`/projects/${id}/cost`)}>
-          Back
+          Prapa
         </Button>
       </div>
     )
@@ -62,11 +62,11 @@ export function CostEditor() {
       {/* Top bar */}
       <header className="sticky top-0 z-30 -mx-4 px-4 pt-safe sm:-mx-6 sm:px-6">
         <div className="glass -mx-1 flex items-center gap-1 rounded-b-2xl border-b border-border px-1 py-2">
-          <IconButton label="Back" onClick={() => navigate(`/projects/${project.id}/cost`)}>
+          <IconButton label="Prapa" onClick={() => navigate(`/projects/${project.id}/cost`)}>
             <ChevronLeft size={22} />
           </IconButton>
           <div className="min-w-0 flex-1">
-            <div className="truncate font-semibold">Calculation</div>
+            <div className="truncate font-semibold">Llogaritje</div>
             <div className="truncate text-[12px] text-subtle">{project.name}</div>
           </div>
           <Button
@@ -81,17 +81,17 @@ export function CostEditor() {
 
       {/* Project summary */}
       <Card className="p-4">
-        <h2 className="mb-3 text-sm font-semibold text-subtle">Project</h2>
+        <h2 className="mb-3 text-sm font-semibold text-subtle">Projekti</h2>
         <div className="grid grid-cols-2 gap-y-2 text-sm">
-          <span className="text-subtle">Name</span>
+          <span className="text-subtle">Emri</span>
           <span className="text-right font-medium">{project.name}</span>
-          <span className="text-subtle">Client</span>
+          <span className="text-subtle">Klienti</span>
           <span className="text-right font-medium">{project.client || '—'}</span>
-          <span className="text-subtle">Location</span>
+          <span className="text-subtle">Vendndodhja</span>
           <span className="text-right font-medium">{project.location || '—'}</span>
         </div>
         <div className="mt-3 border-t border-border pt-3">
-          <Field label="Total area (m²)">
+          <Field label="Sipërfaqja totale (m²)">
             <NumberField
               value={calc.areaM2}
               onValueChange={(n) => patch({ areaM2: n })}
@@ -104,7 +104,7 @@ export function CostEditor() {
               onClick={() => patch({ areaM2: measured })}
               className="mt-1.5 inline-flex items-center gap-1 text-[12px] font-medium text-primary"
             >
-              <RotateCcw size={12} /> Reset to measured ({formatNumber(measured, settings)} m²)
+              <RotateCcw size={12} /> Rikthe te e matura ({formatNumber(measured, settings)} m²)
             </button>
           )}
         </div>
@@ -112,7 +112,7 @@ export function CostEditor() {
 
       {/* Work type */}
       <Card className="p-4">
-        <h2 className="mb-3 text-sm font-semibold text-subtle">Work type</h2>
+        <h2 className="mb-3 text-sm font-semibold text-subtle">Lloji i punës</h2>
         <div className="flex flex-wrap gap-2">
           {WORK_TYPES.map((w) => (
             <button
@@ -129,7 +129,7 @@ export function CostEditor() {
               )}
             >
               {w.label}
-              {!w.available && <span className="ml-1 text-[10px]">soon</span>}
+              {!w.available && <span className="ml-1 text-[10px]">së shpejti</span>}
             </button>
           ))}
         </div>
@@ -137,9 +137,9 @@ export function CostEditor() {
 
       {/* Income */}
       <Card className="p-4">
-        <h2 className="mb-3 text-sm font-semibold text-subtle">Client price &amp; income</h2>
+        <h2 className="mb-3 text-sm font-semibold text-subtle">Çmimi i klientit &amp; të ardhurat</h2>
         <div className="grid grid-cols-2 gap-3">
-          <Field label="Price per m² (EUR)">
+          <Field label="Çmimi për m² (EUR)">
             <NumberField
               value={calc.pricePerM2Eur}
               onValueChange={(n) => patch({ pricePerM2Eur: n })}
@@ -147,7 +147,7 @@ export function CostEditor() {
               suffix="€"
             />
           </Field>
-          <Field label="Exchange rate" hint="1 EUR = ? MKD">
+          <Field label="Kursi i këmbimit" hint="1 EUR = ? MKD">
             <NumberField
               value={calc.exchangeRate}
               onValueChange={(n) => patch({ exchangeRate: n })}
@@ -156,7 +156,7 @@ export function CostEditor() {
           </Field>
         </div>
         <div className="mt-3 flex items-center justify-between rounded-xl bg-muted px-4 py-3">
-          <span className="text-sm text-subtle">Total income</span>
+          <span className="text-sm text-subtle">Të ardhurat totale</span>
           <div className="text-right">
             <div className="text-lg font-bold tabular-nums">{formatMoney(r.incomeEur, settings)} €</div>
             <div className="text-[12px] text-subtle tabular-nums">
@@ -169,7 +169,7 @@ export function CostEditor() {
       {/* Materials */}
       <div>
         <h2 className="mb-2.5 flex items-center gap-1.5 px-1 text-sm font-semibold text-subtle">
-          <Package size={16} /> Materials
+          <Package size={16} /> Materialet
         </h2>
         <div className="space-y-2.5">
           {calc.materials.map((m, i) => (
@@ -183,12 +183,12 @@ export function CostEditor() {
           ))}
           {calc.materials.length === 0 && (
             <Card className="p-4 text-center text-sm text-subtle">
-              No materials for this work type yet.
+              Ende pa materiale për këtë lloj pune.
             </Card>
           )}
         </div>
         <div className="mt-2.5 flex items-center justify-between rounded-xl bg-primary/10 px-4 py-3">
-          <span className="text-sm font-medium text-primary">Material cost</span>
+          <span className="text-sm font-medium text-primary">Kostoja e materialeve</span>
           <span className="text-lg font-bold tabular-nums text-primary">
             {formatMoney(r.materialCostMkd, settings)} MKD
           </span>
@@ -198,12 +198,12 @@ export function CostEditor() {
       {/* Additional expenses */}
       <div>
         <div className="mb-2.5 flex items-center justify-between px-1">
-          <h2 className="text-sm font-semibold text-subtle">Additional expenses</h2>
+          <h2 className="text-sm font-semibold text-subtle">Shpenzime shtesë</h2>
           <button
             onClick={addExpense}
             className="inline-flex items-center gap-1 text-sm font-semibold text-primary"
           >
-            <Plus size={16} /> Add
+            <Plus size={16} /> Shto
           </button>
         </div>
         <div className="space-y-2.5">
@@ -213,11 +213,11 @@ export function CostEditor() {
                 <Input
                   value={e.name}
                   onChange={(ev) => updateExpense(e.id, { name: ev.target.value })}
-                  placeholder="Workers, fuel, transport…"
+                  placeholder="Punëtorë, karburant, transport…"
                   sizing="sm"
                   className="flex-1"
                 />
-                <IconButton label="Delete expense" tone="danger" onClick={() => removeExpense(e.id)}>
+                <IconButton label="Fshij shpenzimin" tone="danger" onClick={() => removeExpense(e.id)}>
                   <Trash2 size={16} />
                 </IconButton>
               </div>
@@ -234,19 +234,19 @@ export function CostEditor() {
               <Input
                 value={e.notes}
                 onChange={(ev) => updateExpense(e.id, { notes: ev.target.value })}
-                placeholder="Notes (optional)"
+                placeholder="Shënime (opsionale)"
                 sizing="sm"
               />
             </Card>
           ))}
           {calc.expenses.length === 0 && (
             <Card className="p-4 text-center text-sm text-subtle">
-              No extra expenses. Tap “Add” for workers, fuel, transport, food, tools…
+              Pa shpenzime shtesë. Prek “Shto” për punëtorë, karburant, transport, ushqim, vegla…
             </Card>
           )}
         </div>
         <div className="mt-2.5 flex items-center justify-between rounded-xl bg-muted px-4 py-3">
-          <span className="text-sm text-subtle">Additional total</span>
+          <span className="text-sm text-subtle">Totali shtesë</span>
           <span className="text-lg font-bold tabular-nums">
             {formatMoney(r.additionalMkd, settings)} MKD
           </span>
@@ -262,7 +262,7 @@ export function CostEditor() {
     // For now only mallter has presets; keep existing materials if already set.
     if (key === calc!.workType) return
     patch({ workType: key })
-    toast(`Work type: ${WORK_TYPES.find((w) => w.key === key)?.label}`)
+    toast(`Lloji i punës: ${WORK_TYPES.find((w) => w.key === key)?.label}`)
   }
 }
 
@@ -290,19 +290,19 @@ function MaterialCard({
       {line.mode === 'auto' ? (
         <div className="mt-3 space-y-3">
           <div className="grid grid-cols-3 gap-2 text-center">
-            <Stat label="Required" value={`${formatNumber(result.requiredKg ?? 0, settings)} kg`} />
-            <Stat label="Bags (↑)" value={`${result.units}`} highlight />
-            <Stat label="per m²" value={`${formatNumber(line.consumptionPerM2 ?? 0, settings)} kg`} />
+            <Stat label="Nevojiten" value={`${formatNumber(result.requiredKg ?? 0, settings)} kg`} />
+            <Stat label="Thasë (↑)" value={`${result.units}`} highlight />
+            <Stat label="për m²" value={`${formatNumber(line.consumptionPerM2 ?? 0, settings)} kg`} />
           </div>
           <div className="grid grid-cols-2 gap-3">
-            <Field label="Bag size (kg)">
+            <Field label="Madhësia e thesit (kg)">
               <NumberField
                 value={line.unitSize ?? 0}
                 onValueChange={(n) => onChange({ unitSize: n })}
                 align="right"
               />
             </Field>
-            <Field label="Price / bag (MKD)">
+            <Field label="Çmimi / thes (MKD)">
               <NumberField
                 value={line.pricePerUnit}
                 onValueChange={(n) => onChange({ pricePerUnit: n })}
@@ -310,7 +310,7 @@ function MaterialCard({
               />
             </Field>
           </div>
-          <Field label="Consumption (kg per m²)">
+          <Field label="Konsumi (kg për m²)">
             <NumberField
               value={line.consumptionPerM2 ?? 0}
               onValueChange={(n) => onChange({ consumptionPerM2: n })}
@@ -320,14 +320,14 @@ function MaterialCard({
         </div>
       ) : (
         <div className="mt-3 grid grid-cols-2 gap-3">
-          <Field label={`Quantity (${line.unitLabel}s)`}>
+          <Field label={`Sasia (${line.unitLabel})`}>
             <NumberField
               value={line.quantity ?? 0}
               onValueChange={(n) => onChange({ quantity: n })}
               align="right"
             />
           </Field>
-          <Field label={`Price / ${line.unitLabel} (MKD)`}>
+          <Field label={`Çmimi / ${line.unitLabel} (MKD)`}>
             <NumberField
               value={line.pricePerUnit}
               onValueChange={(n) => onChange({ pricePerUnit: n })}
@@ -378,7 +378,7 @@ function ProfitDashboard({
           {good ? <TrendingUp size={20} /> : <TrendingDown size={20} />}
         </div>
         <span className={cn('text-sm font-bold uppercase tracking-wide', good ? 'text-success' : 'text-danger')}>
-          {good ? 'Profitable' : 'Loss'}
+          {good ? 'Me fitim' : 'Humbje'}
         </span>
       </div>
 
@@ -387,7 +387,7 @@ function ProfitDashboard({
           <div className={cn('text-4xl font-extrabold tabular-nums', good ? 'text-success' : 'text-danger')}>
             {formatMoney(r.profitMkd, settings)}
           </div>
-          <div className="text-sm text-subtle">MKD profit</div>
+          <div className="text-sm text-subtle">fitim MKD</div>
         </div>
         <div className="text-right">
           <div className={cn('text-xl font-bold tabular-nums', good ? 'text-success' : 'text-danger')}>
@@ -400,12 +400,12 @@ function ProfitDashboard({
       </div>
 
       <div className="mt-5 grid grid-cols-2 gap-2 border-t border-border/60 pt-4 text-sm">
-        <Line label="Income" value={`${formatMoney(r.incomeMkd, settings)} MKD`} />
-        <Line label="Income €" value={`${formatMoney(r.incomeEur, settings)} €`} />
-        <Line label="Material cost" value={`${formatMoney(r.materialCostMkd, settings)} MKD`} />
-        <Line label="Extra expenses" value={`${formatMoney(r.additionalMkd, settings)} MKD`} />
-        <Line label="Total expenses" value={`${formatMoney(r.totalExpensesMkd, settings)} MKD`} strong />
-        <Line label="Expenses €" value={`${formatMoney(r.totalExpensesEur, settings)} €`} />
+        <Line label="Të ardhura" value={`${formatMoney(r.incomeMkd, settings)} MKD`} />
+        <Line label="Të ardhura €" value={`${formatMoney(r.incomeEur, settings)} €`} />
+        <Line label="Kosto materiali" value={`${formatMoney(r.materialCostMkd, settings)} MKD`} />
+        <Line label="Shpenzime shtesë" value={`${formatMoney(r.additionalMkd, settings)} MKD`} />
+        <Line label="Shpenzime gjithsej" value={`${formatMoney(r.totalExpensesMkd, settings)} MKD`} strong />
+        <Line label="Shpenzime €" value={`${formatMoney(r.totalExpensesEur, settings)} €`} />
       </div>
     </motion.div>
   )

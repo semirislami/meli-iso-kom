@@ -5,9 +5,9 @@ import { LayoutGrid, FolderKanban, Settings } from 'lucide-react'
 import { cn } from './ui'
 
 const tabs = [
-  { to: '/', label: 'Home', icon: LayoutGrid, end: true },
-  { to: '/projects', label: 'Projects', icon: FolderKanban, end: false },
-  { to: '/settings', label: 'Settings', icon: Settings, end: false },
+  { to: '/', label: 'Ballina', icon: LayoutGrid, end: true },
+  { to: '/projects', label: 'Projektet', icon: FolderKanban, end: false },
+  { to: '/settings', label: 'Cilësimet', icon: Settings, end: false },
 ]
 
 export function Layout({ children }: { children: ReactNode }) {

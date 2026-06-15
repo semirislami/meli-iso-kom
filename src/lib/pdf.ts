@@ -29,7 +29,7 @@ export function exportProjectPdf(project: Project, settings: Settings) {
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(18)
   doc.setTextColor(...INK)
-  doc.text(settings.companyName || 'Measurement Report', margin, 50)
+  doc.text(settings.companyName || 'Raport i Matjeve', margin, 50)
 
   if (settings.companyContact) {
     doc.setFont('helvetica', 'normal')
@@ -41,11 +41,11 @@ export function exportProjectPdf(project: Project, settings: Settings) {
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(11)
   doc.setTextColor(...PRIMARY)
-  doc.text('MEASUREMENT REPORT', pageW - margin, 50, { align: 'right' })
+  doc.text('RAPORT I MATJEVE', pageW - margin, 50, { align: 'right' })
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(9)
   doc.setTextColor(...SUBTLE)
-  doc.text(`Generated ${formatDate(Date.now())}`, pageW - margin, 64, { align: 'right' })
+  doc.text(`Krijuar më ${formatDate(Date.now())}`, pageW - margin, 64, { align: 'right' })
 
   // ── Project info card ──────────────────────────────────────────────
   let y = 88
@@ -58,12 +58,12 @@ export function exportProjectPdf(project: Project, settings: Settings) {
   doc.setFontSize(15)
   doc.setFont('helvetica', 'bold')
   doc.setTextColor(...INK)
-  doc.text(project.name || 'Untitled project', col1, y + 28, { maxWidth: contentW / 2 - 24 })
+  doc.text(project.name || 'Projekt pa titull', col1, y + 28, { maxWidth: contentW / 2 - 24 })
 
   const infoRows: Array<[string, string]> = [
-    ['Client', project.client || '—'],
-    ['Location', project.location || '—'],
-    ['Date', formatDate(project.date)],
+    ['Klienti', project.client || '—'],
+    ['Vendndodhja', project.location || '—'],
+    ['Data', formatDate(project.date)],
   ]
   doc.setFontSize(9)
   let infoY = y + 22
@@ -86,7 +86,7 @@ export function exportProjectPdf(project: Project, settings: Settings) {
     doc.setFont('helvetica', 'italic')
     doc.setFontSize(11)
     doc.setTextColor(...SUBTLE)
-    doc.text('No measurements recorded yet.', margin, y + 10)
+    doc.text('Ende pa matje të regjistruara.', margin, y + 10)
   }
 
   nonEmpty.forEach((section) => {
@@ -111,7 +111,7 @@ export function exportProjectPdf(project: Project, settings: Settings) {
     autoTable(doc, {
       startY: y + 24,
       margin: { left: margin, right: margin },
-      head: [['#', 'Description', 'Calculation', 'Result']],
+      head: [['#', 'Përshkrimi', 'Llogaritja', 'Rezultati']],
       body: section.measurements.map((m, i) => [
         String(i + 1),
         m.description || '—',
@@ -158,7 +158,7 @@ export function exportProjectPdf(project: Project, settings: Settings) {
   doc.setTextColor(255, 255, 255)
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(12)
-  doc.text('GRAND TOTAL', margin + 16, y + boxH / 2 + 4)
+  doc.text('TOTALI I PËRGJITHSHËM', margin + 16, y + boxH / 2 + 4)
   doc.setFontSize(19)
   doc.text(formatValue(grand, settings), pageW - margin - 16, y + boxH / 2 + 5, { align: 'right' })
 
@@ -166,9 +166,9 @@ export function exportProjectPdf(project: Project, settings: Settings) {
   doc.setFontSize(8.5)
   doc.setTextColor(...SUBTLE)
   doc.text(
-    `${nonEmpty.length} section${nonEmpty.length === 1 ? '' : 's'} · ${projectMeasurementCount(
+    `${nonEmpty.length} seksion${nonEmpty.length === 1 ? '' : 'e'} · ${projectMeasurementCount(
       project
-    )} measurements · unit: ${settings.unit || '—'}`,
+    )} matje · njësia: ${settings.unit || '—'}`,
     margin,
     y + boxH + 18
   )
@@ -184,7 +184,7 @@ export function exportProjectPdf(project: Project, settings: Settings) {
     doc.setFontSize(8)
     doc.setTextColor(...SUBTLE)
     doc.text(settings.companyName || '', margin, pageH - 16)
-    doc.text(`Page ${i} of ${pageCount}`, pageW - margin, pageH - 16, { align: 'right' })
+    doc.text(`Faqja ${i} nga ${pageCount}`, pageW - margin, pageH - 16, { align: 'right' })
   }
 
   const safeName = (project.name || 'project').replace(/[^a-z0-9\-_]+/gi, '_').slice(0, 40)
@@ -211,7 +211,7 @@ export function exportCostPdf(project: Project, calc: CostCalculation, settings:
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(18)
   doc.setTextColor(...INK)
-  doc.text(settings.companyName || 'Cost Report', margin, 50)
+  doc.text(settings.companyName || 'Raport i Kostos', margin, 50)
   if (settings.companyContact) {
     doc.setFont('helvetica', 'normal')
     doc.setFontSize(9.5)
@@ -221,11 +221,11 @@ export function exportCostPdf(project: Project, calc: CostCalculation, settings:
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(11)
   doc.setTextColor(...PRIMARY)
-  doc.text('COST & PROFIT REPORT', pageW - margin, 50, { align: 'right' })
+  doc.text('RAPORT I KOSTOS & FITIMIT', pageW - margin, 50, { align: 'right' })
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(9)
   doc.setTextColor(...SUBTLE)
-  doc.text(`Generated ${formatDate(Date.now())}`, pageW - margin, 64, { align: 'right' })
+  doc.text(`Krijuar më ${formatDate(Date.now())}`, pageW - margin, 64, { align: 'right' })
 
   // Project + parameters card
   let y = 88
@@ -235,18 +235,18 @@ export function exportCostPdf(project: Project, calc: CostCalculation, settings:
   doc.setFontSize(15)
   doc.setFont('helvetica', 'bold')
   doc.setTextColor(...INK)
-  doc.text(project.name || 'Untitled project', margin + 16, y + 26, { maxWidth: contentW / 2 - 24 })
+  doc.text(project.name || 'Projekt pa titull', margin + 16, y + 26, { maxWidth: contentW / 2 - 24 })
 
   const left: Array<[string, string]> = [
-    ['Client', project.client || '—'],
-    ['Location', project.location || '—'],
-    ['Date', formatDate(calc.createdAt)],
+    ['Klienti', project.client || '—'],
+    ['Vendndodhja', project.location || '—'],
+    ['Data', formatDate(calc.createdAt)],
   ]
   const right: Array<[string, string]> = [
-    ['Work type', workTypeLabel(calc.workType)],
-    ['Total area', `${formatNumber(r.area, settings)} m²`],
-    ['Price / m²', `${formatNumber(calc.pricePerM2Eur, settings)} EUR`],
-    ['Exchange rate', `1 EUR = ${formatNumber(r.rate, settings)} MKD`],
+    ['Lloji i punës', workTypeLabel(calc.workType)],
+    ['Sipërfaqja', `${formatNumber(r.area, settings)} m²`],
+    ['Çmimi / m²', `${formatNumber(calc.pricePerM2Eur, settings)} EUR`],
+    ['Kursi i këmbimit', `1 EUR = ${formatNumber(r.rate, settings)} MKD`],
   ]
   doc.setFontSize(9)
   let ly = y + 44
@@ -275,20 +275,20 @@ export function exportCostPdf(project: Project, calc: CostCalculation, settings:
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(11)
   doc.setTextColor(...INK)
-  doc.text('Material breakdown', margin, y)
+  doc.text('Ndarja e materialeve', margin, y)
   y += 8
   autoTable(doc, {
     startY: y,
     margin: { left: margin, right: margin },
-    head: [['Material', 'Quantity', 'Unit price', 'Cost (MKD)']],
+    head: [['Materiali', 'Sasia', 'Çmimi për njësi', 'Kosto (MKD)']],
     body: r.materials.map((m) => [
       m.line.name +
         (m.requiredKg !== undefined ? ` (${formatNumber(m.requiredKg, settings)} kg)` : ''),
-      `${m.units} ${m.line.unitLabel}${m.units === 1 ? '' : 's'}`,
+      `${m.units} ${m.line.unitLabel}`,
       `${money(m.line.pricePerUnit)} / ${m.line.unitLabel}`,
       money(m.cost),
     ]),
-    foot: [['', '', 'Material total', money(r.materialCostMkd)]],
+    foot: [['', '', 'Totali i materialeve', money(r.materialCostMkd)]],
     theme: 'grid',
     styles: { font: 'helvetica', fontSize: 9.5, cellPadding: 6, textColor: INK, lineColor: LINE, lineWidth: 0.5 },
     headStyles: { fillColor: SOFT, textColor: SUBTLE, fontStyle: 'bold', fontSize: 8.5 },
@@ -303,14 +303,14 @@ export function exportCostPdf(project: Project, calc: CostCalculation, settings:
     doc.setFont('helvetica', 'bold')
     doc.setFontSize(11)
     doc.setTextColor(...INK)
-    doc.text('Additional expenses', margin, y)
+    doc.text('Shpenzime shtesë', margin, y)
     y += 8
     autoTable(doc, {
       startY: y,
       margin: { left: margin, right: margin },
-      head: [['Expense', 'Notes', 'Amount (MKD)']],
+      head: [['Shpenzimi', 'Shënime', 'Shuma (MKD)']],
       body: calc.expenses.map((e) => [e.name || '—', e.notes || '—', money(e.amount)]),
-      foot: [['', 'Expenses total', money(r.additionalMkd)]],
+      foot: [['', 'Totali i shpenzimeve', money(r.additionalMkd)]],
       theme: 'grid',
       styles: { font: 'helvetica', fontSize: 9.5, cellPadding: 6, textColor: INK, lineColor: LINE, lineWidth: 0.5 },
       headStyles: { fillColor: SOFT, textColor: SUBTLE, fontStyle: 'bold', fontSize: 8.5 },
@@ -329,15 +329,15 @@ export function exportCostPdf(project: Project, calc: CostCalculation, settings:
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(11)
   doc.setTextColor(...INK)
-  doc.text('Financial summary', margin, y)
+  doc.text('Përmbledhje financiare', margin, y)
   y += 8
   autoTable(doc, {
     startY: y,
     margin: { left: margin, right: margin },
     head: [['', 'EUR', 'MKD']],
     body: [
-      ['Income', money(r.incomeEur), money(r.incomeMkd)],
-      ['Expenses', money(r.totalExpensesEur), money(r.totalExpensesMkd)],
+      ['Të ardhurat', money(r.incomeEur), money(r.incomeMkd)],
+      ['Shpenzimet', money(r.totalExpensesEur), money(r.totalExpensesMkd)],
     ],
     theme: 'grid',
     styles: { font: 'helvetica', fontSize: 10, cellPadding: 7, textColor: INK, lineColor: LINE, lineWidth: 0.5 },
@@ -359,7 +359,7 @@ export function exportCostPdf(project: Project, calc: CostCalculation, settings:
   doc.setTextColor(255, 255, 255)
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(12)
-  doc.text(r.profitable ? 'PROFIT' : 'LOSS', margin + 16, y + 26)
+  doc.text(r.profitable ? 'FITIM' : 'HUMBJE', margin + 16, y + 26)
   doc.setFontSize(22)
   doc.text(`${money(r.profitMkd)} MKD`, pageW - margin - 16, y + 30, { align: 'right' })
   doc.setFont('helvetica', 'normal')
@@ -378,7 +378,7 @@ export function exportCostPdf(project: Project, calc: CostCalculation, settings:
     doc.setFontSize(8)
     doc.setTextColor(...SUBTLE)
     doc.text(settings.companyName || '', margin, pageH - 16)
-    doc.text(`Page ${i} of ${pageCount}`, pageW - margin, pageH - 16, { align: 'right' })
+    doc.text(`Faqja ${i} nga ${pageCount}`, pageW - margin, pageH - 16, { align: 'right' })
   }
 
   const safeName = (project.name || 'project').replace(/[^a-z0-9\-_]+/gi, '_').slice(0, 40)

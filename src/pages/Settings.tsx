@@ -26,8 +26,8 @@ export function Settings() {
   const fileRef = useRef<HTMLInputElement>(null)
 
   const themes: { key: ThemeMode; label: string; icon: typeof Sun }[] = [
-    { key: 'light', label: 'Light', icon: Sun },
-    { key: 'dark', label: 'Dark', icon: Moon },
+    { key: 'light', label: 'E çelët', icon: Sun },
+    { key: 'dark', label: 'E errët', icon: Moon },
     { key: 'system', label: 'Auto', icon: Monitor },
   ]
 
@@ -36,30 +36,30 @@ export function Settings() {
       const text = await file.text()
       const backup = parseBackup(text)
       ask({
-        title: 'Restore backup?',
-        message: `This replaces your current data with ${backup.projects.length} project(s) from the backup.`,
-        confirmLabel: 'Restore',
+        title: 'Të rikthehet rezervimi?',
+        message: `Kjo i zëvendëson të dhënat aktuale me ${backup.projects.length} projekt(e) nga rezervimi.`,
+        confirmLabel: 'Rikthe',
         tone: 'primary',
         onConfirm: () => {
           replaceProjects(backup.projects)
           if (backup.settings) settings.replaceAll(backup.settings)
-          toast('Backup restored', 'success')
+          toast('Rezervimi u rikthye', 'success')
         },
       })
     } catch {
-      toast('Invalid backup file', 'danger')
+      toast('Skedar rezervimi i pavlefshëm', 'danger')
     }
   }
 
   return (
     <div className="space-y-6 py-2">
       <header className="pt-2">
-        <h1 className="text-2xl font-bold tracking-tight">Settings</h1>
-        <p className="text-sm text-subtle">Personalize your reports and app.</p>
+        <h1 className="text-2xl font-bold tracking-tight">Cilësimet</h1>
+        <p className="text-sm text-subtle">Personalizo raportet dhe aplikacionin.</p>
       </header>
 
       {/* Appearance */}
-      <Section title="Appearance">
+      <Section title="Pamja">
         <div className="grid grid-cols-3 gap-2">
           {themes.map((t) => {
             const active = settings.theme === t.key
@@ -84,37 +84,37 @@ export function Settings() {
       </Section>
 
       {/* Company / branding */}
-      <Section title="Report branding" icon={<Building2 size={16} />}>
+      <Section title="Markimi i raportit" icon={<Building2 size={16} />}>
         <div className="space-y-4">
-          <Field label="Name on PDF reports" hint="Appears as the header on every exported report.">
+          <Field label="Emri në raportet PDF" hint="Shfaqet si titull në çdo raport të eksportuar.">
             <Input
               value={settings.companyName}
               onChange={(e) => settings.update({ companyName: e.target.value })}
-              placeholder="Your name or company"
+              placeholder="Emri yt ose kompania"
             />
           </Field>
-          <Field label="Contact line (optional)" hint="Phone, email or address — shown under your name.">
+          <Field label="Rreshti i kontaktit (opsional)" hint="Telefon, email ose adresë — shfaqet nën emrin tënd.">
             <Input
               value={settings.companyContact}
               onChange={(e) => settings.update({ companyContact: e.target.value })}
-              placeholder="+387 ·· ··· ··· · info@example.com"
+              placeholder="+389 ·· ··· ··· · info@example.com"
             />
           </Field>
         </div>
       </Section>
 
       {/* Units */}
-      <Section title="Measurement format" icon={<Ruler size={16} />}>
+      <Section title="Formati i matjeve" icon={<Ruler size={16} />}>
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-3">
-            <Field label="Unit label">
+            <Field label="Etiketa e njësisë">
               <Input
                 value={settings.unit}
                 onChange={(e) => settings.update({ unit: e.target.value })}
                 placeholder="m²"
               />
             </Field>
-            <Field label="Decimals">
+            <Field label="Decimalet">
               <div className="flex gap-1.5">
                 {[0, 1, 2, 3].map((d) => (
                   <button
@@ -133,7 +133,7 @@ export function Settings() {
               </div>
             </Field>
           </div>
-          <Field label="Decimal separator">
+          <Field label="Ndarësi dhjetor">
             <div className="grid grid-cols-2 gap-2">
               {(['comma', 'dot'] as const).map((sep) => (
                 <button
@@ -146,7 +146,7 @@ export function Settings() {
                       : 'border-border bg-surface text-subtle'
                   )}
                 >
-                  {sep === 'comma' ? '16,5  (comma)' : '16.5  (dot)'}
+                  {sep === 'comma' ? '16,5  (presje)' : '16.5  (pikë)'}
                 </button>
               ))}
             </div>
@@ -155,14 +155,14 @@ export function Settings() {
       </Section>
 
       {/* Data / backup */}
-      <Section title="Data & backup">
+      <Section title="Të dhënat & rezervimi">
         <div className="space-y-2.5">
           <Button
             variant="secondary"
             block
             onClick={() => downloadBackup(projects, settingsSnapshot(settings))}
           >
-            <Download size={18} /> Export backup ({projects.length})
+            <Download size={18} /> Eksporto rezervim ({projects.length})
           </Button>
           <input
             ref={fileRef}
@@ -176,7 +176,7 @@ export function Settings() {
             }}
           />
           <Button variant="secondary" block onClick={() => fileRef.current?.click()}>
-            <Upload size={18} /> Restore from backup
+            <Upload size={18} /> Rikthe nga rezervimi
           </Button>
           <Button
             variant="ghost"
@@ -184,17 +184,17 @@ export function Settings() {
             className="text-danger hover:bg-danger/10"
             onClick={() =>
               ask({
-                title: 'Delete everything?',
-                message: 'All projects and measurements will be permanently erased from this device.',
-                confirmLabel: 'Erase all',
+                title: 'Të fshihet gjithçka?',
+                message: 'Të gjitha projektet dhe matjet do të fshihen përgjithmonë nga kjo pajisje.',
+                confirmLabel: 'Fshij gjithçka',
                 onConfirm: () => {
                   replaceProjects([])
-                  toast('All data cleared')
+                  toast('Të gjitha të dhënat u fshinë')
                 },
               })
             }
           >
-            <Trash2 size={18} /> Clear all data
+            <Trash2 size={18} /> Fshij të gjitha të dhënat
           </Button>
         </div>
       </Section>
@@ -203,16 +203,16 @@ export function Settings() {
       <Card className="flex items-start gap-3 p-4 text-sm text-subtle">
         <Info size={18} className="mt-0.5 shrink-0 text-primary" />
         <div>
-          <p className="font-medium text-fg">Works offline.</p>
+          <p className="font-medium text-fg">Punon pa internet.</p>
           <p className="mt-0.5">
-            Your data lives only on this device. Export a backup regularly and add the app to your
-            home screen for one-tap access on site.
+            Të dhënat ruhen vetëm në këtë pajisje. Eksporto një rezervim rregullisht dhe shto
+            aplikacionin në ekranin kryesor për qasje me një prekje në terren.
           </p>
         </div>
       </Card>
 
       <p className="flex items-center justify-center gap-1.5 pb-2 text-center text-xs text-subtle">
-        <Github size={13} /> Construction Measurement Calculator · v1.0
+        <Github size={13} /> Llogaritësi i Matjeve në Ndërtim · v1.0
       </p>
     </div>
   )

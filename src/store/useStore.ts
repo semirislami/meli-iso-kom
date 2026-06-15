@@ -79,7 +79,7 @@ export const useStore = create<ProjectsState>()(
         const now = Date.now()
         const project: Project = {
           id: uid(),
-          name: input.name.trim() || 'Untitled project',
+          name: input.name.trim() || 'Projekt pa titull',
           client: input.client?.trim() ?? '',
           location: input.location?.trim() ?? '',
           date: input.date || todayISO(),
@@ -107,7 +107,7 @@ export const useStore = create<ProjectsState>()(
         const copy: Project = {
           ...original,
           id: uid(),
-          name: `${original.name} (copy)`,
+          name: `${original.name} (kopje)`,
           createdAt: now,
           updatedAt: now,
           sections: original.sections.map((sec) => ({
@@ -123,7 +123,7 @@ export const useStore = create<ProjectsState>()(
       getProject: (id) => get().projects.find((p) => p.id === id),
 
       addSection: (projectId, name) => {
-        const section: Section = { id: uid(), name: name.trim() || 'Section', measurements: [] }
+        const section: Section = { id: uid(), name: name.trim() || 'Seksion', measurements: [] }
         set((s) => ({
           projects: patchProject(s.projects, projectId, (p) => ({
             ...p,

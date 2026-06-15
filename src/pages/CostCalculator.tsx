@@ -28,9 +28,9 @@ export function CostCalculator() {
   if (!project) {
     return (
       <div className="flex flex-col items-center justify-center py-24 text-center">
-        <p className="text-subtle">Project not found.</p>
+        <p className="text-subtle">Projekti nuk u gjet.</p>
         <Button className="mt-4" onClick={() => navigate('/projects')}>
-          Back to projects
+          Kthehu te projektet
         </Button>
       </div>
     )
@@ -50,11 +50,11 @@ export function CostCalculator() {
       {/* Top bar */}
       <header className="sticky top-0 z-30 -mx-4 mb-3 px-4 pt-safe sm:-mx-6 sm:px-6">
         <div className="glass -mx-1 flex items-center gap-1 rounded-b-2xl border-b border-border px-1 py-2">
-          <IconButton label="Back" onClick={() => navigate(`/projects/${project.id}`)}>
+          <IconButton label="Prapa" onClick={() => navigate(`/projects/${project.id}`)}>
             <ChevronLeft size={22} />
           </IconButton>
           <div className="min-w-0 flex-1">
-            <div className="truncate font-semibold">Cost &amp; Profit</div>
+            <div className="truncate font-semibold">Kostoja &amp; Fitimi</div>
             <div className="truncate text-[12px] text-subtle">{project.name}</div>
           </div>
         </div>
@@ -63,7 +63,7 @@ export function CostCalculator() {
       {/* Imported summary */}
       <Card className="mb-4 flex items-center justify-between p-4">
         <div>
-          <p className="text-[13px] text-subtle">Measured area (imported)</p>
+          <p className="text-[13px] text-subtle">Sipërfaqja e matur (importuar)</p>
           <div className="text-2xl font-extrabold tabular-nums text-primary">
             {formatValue(area, settings)}
           </div>
@@ -74,17 +74,17 @@ export function CostCalculator() {
       </Card>
 
       <Button size="lg" block onClick={handleNew} className="mb-5">
-        <Plus size={22} strokeWidth={2.5} /> New calculation
+        <Plus size={22} strokeWidth={2.5} /> Llogaritje e re
       </Button>
 
       {calcs.length === 0 ? (
         <EmptyState
           icon={<Calculator size={26} />}
-          title="No calculations yet"
-          description="Create a calculation to work out materials, expenses and profit for this project."
+          title="Ende pa llogaritje"
+          description="Krijo një llogaritje për të nxjerrë materialet, shpenzimet dhe fitimin për këtë projekt."
           action={
             <Button onClick={handleNew}>
-              <Plus size={18} /> New calculation
+              <Plus size={18} /> Llogaritje e re
             </Button>
           }
         />
@@ -106,7 +106,7 @@ export function CostCalculator() {
                   <button
                     onClick={() => navigate(`/projects/${project.id}/cost/${calc.id}`)}
                     className="absolute inset-0 z-0"
-                    aria-label="Open calculation"
+                    aria-label="Hap llogaritjen"
                   />
                   <div className="relative z-10 flex items-start justify-between gap-3">
                     <div className="min-w-0">
@@ -122,7 +122,7 @@ export function CostCalculator() {
                         </span>
                       </div>
                       <div className="mt-1 text-[12px] text-subtle">
-                        {formatDate(calc.createdAt)} · Income {formatMoney(r.incomeMkd, settings)} MKD
+                        {formatDate(calc.createdAt)} · Të ardhura {formatMoney(r.incomeMkd, settings)} MKD
                       </div>
                     </div>
                     <div className="shrink-0 text-right">
@@ -133,30 +133,30 @@ export function CostCalculator() {
                       >
                         {formatMoney(r.profitMkd, settings)}
                       </div>
-                      <div className="text-[11px] text-subtle">MKD profit</div>
+                      <div className="text-[11px] text-subtle">fitim MKD</div>
                     </div>
                   </div>
                   <div className="relative z-10 mt-3 flex items-center justify-end gap-0.5 border-t border-border pt-2">
                     <IconButton
-                      label="Duplicate"
+                      label="Kopjo"
                       onClick={() => {
                         duplicateCalculation(project.id, calc.id)
-                        toast('Calculation duplicated', 'success')
+                        toast('Llogaritja u kopjua', 'success')
                       }}
                     >
                       <Copy size={16} />
                     </IconButton>
                     <IconButton
-                      label="Delete"
+                      label="Fshij"
                       tone="danger"
                       onClick={() =>
                         ask({
-                          title: 'Delete calculation?',
-                          message: 'This calculation will be permanently removed.',
-                          confirmLabel: 'Delete',
+                          title: 'Të fshihet llogaritja?',
+                          message: 'Kjo llogaritje do të hiqet përgjithmonë.',
+                          confirmLabel: 'Fshij',
                           onConfirm: () => {
                             deleteCalculation(project.id, calc.id)
-                            toast('Calculation deleted')
+                            toast('Llogaritja u fshi')
                           },
                         })
                       }

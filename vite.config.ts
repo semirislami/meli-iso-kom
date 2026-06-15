@@ -16,9 +16,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['icon.svg'],
       manifest: {
-        name: 'Construction Measurement Calculator',
-        short_name: 'Mjera',
-        description: 'Fast, offline-first construction measurement calculator.',
+        name: 'Llogaritësi i Matjeve në Ndërtim',
+        short_name: 'Matjet',
+        description: 'Llogaritës i shpejtë i matjeve në ndërtim që punon pa internet.',
         theme_color: '#0b0b0f',
         background_color: '#0b0b0f',
         display: 'standalone',

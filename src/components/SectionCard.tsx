@@ -52,10 +52,10 @@ export function SectionCard({
               }}
               sizing="sm"
             />
-            <IconButton label="Save" onClick={saveName}>
+            <IconButton label="Ruaj" onClick={saveName}>
               <Check size={18} className="text-success" />
             </IconButton>
-            <IconButton label="Cancel" onClick={() => setEditingName(false)}>
+            <IconButton label="Anulo" onClick={() => setEditingName(false)}>
               <X size={18} />
             </IconButton>
           </div>
@@ -80,7 +80,7 @@ export function SectionCard({
         {!editingName && (
           <div className="flex items-center">
             <IconButton
-              label="Rename section"
+              label="Riemërto seksionin"
               onClick={() => {
                 setNameDraft(section.name)
                 setEditingName(true)
@@ -89,13 +89,13 @@ export function SectionCard({
               <Pencil size={15} />
             </IconButton>
             <IconButton
-              label="Delete section"
+              label="Fshij seksionin"
               tone="danger"
               onClick={() =>
                 ask({
-                  title: 'Delete section?',
-                  message: `"${section.name}" and its ${section.measurements.length} measurements will be removed.`,
-                  confirmLabel: 'Delete',
+                  title: 'Të fshihet seksioni?',
+                  message: `"${section.name}" dhe ${section.measurements.length} matjet e tij do të hiqen.`,
+                  confirmLabel: 'Fshij',
                   onConfirm: () => deleteSection(projectId, section.id),
                 })
               }
@@ -180,7 +180,7 @@ function MeasurementRow({
         <input
           value={descDraft}
           onChange={(e) => setDescDraft(e.target.value)}
-          placeholder="Description (optional)"
+          placeholder="Përshkrimi (opsional)"
           className="input-base mb-2 h-10 text-sm"
         />
         <div className="flex items-center gap-2">
@@ -197,10 +197,10 @@ function MeasurementRow({
           <span className="w-16 shrink-0 text-right text-sm font-bold tabular-nums text-success">
             {result.valid ? formatValue(result.value, settings) : '—'}
           </span>
-          <IconButton label="Save" onClick={save}>
+          <IconButton label="Ruaj" onClick={save}>
             <Check size={18} className="text-success" />
           </IconButton>
-          <IconButton label="Cancel" onClick={() => setEditing(false)}>
+          <IconButton label="Anulo" onClick={() => setEditing(false)}>
             <X size={18} />
           </IconButton>
         </div>
@@ -234,7 +234,7 @@ function MeasurementRow({
       <span
         role="button"
         tabIndex={-1}
-        aria-label="Delete measurement"
+        aria-label="Fshij matjen"
         onClick={(e) => {
           e.stopPropagation()
           onDelete()

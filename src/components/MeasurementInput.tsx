@@ -45,7 +45,7 @@ export function MeasurementInput({
           <input
             value={desc}
             onChange={(e) => setDesc(e.target.value)}
-            placeholder="Description (e.g. Living room wall)"
+            placeholder="Përshkrimi (p.sh. Muri i sallonit)"
             className="input-base h-11 text-[15px]"
             onKeyDown={(e) => e.key === 'Enter' && exprRef.current?.focus()}
           />
@@ -56,7 +56,7 @@ export function MeasurementInput({
         <button
           type="button"
           onClick={() => setShowDesc((v) => !v)}
-          aria-label="Toggle description"
+          aria-label="Shfaq/fsheh përshkrimin"
           className={cn(
             'flex h-14 w-12 shrink-0 items-center justify-center rounded-xl border transition',
             showDesc || desc
@@ -93,7 +93,7 @@ export function MeasurementInput({
                 result.valid ? 'bg-success/12 text-success' : 'text-danger'
               )}
             >
-              {result.valid ? `= ${formatValue(result.value, settings)}` : 'invalid'}
+              {result.valid ? `= ${formatValue(result.value, settings)}` : 'e pavlefshme'}
             </span>
           )}
         </div>
@@ -103,7 +103,7 @@ export function MeasurementInput({
           onClick={commit}
           disabled={!result.valid}
           whileTap={{ scale: 0.9 }}
-          aria-label="Add measurement"
+          aria-label="Shto matje"
           className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-fg shadow-glow transition disabled:opacity-40 disabled:shadow-none"
         >
           <Plus size={24} strokeWidth={2.5} />
@@ -111,9 +111,9 @@ export function MeasurementInput({
       </div>
 
       <p className="mt-2 px-1 text-[11px] text-subtle">
-        Type <span className="font-mono text-fg">8x2</span>,{' '}
-        <span className="font-mono text-fg">5,5x3</span> or{' '}
-        <span className="font-mono text-fg">8x2 + 3x4</span>. Press Enter to add.
+        Shkruaj <span className="font-mono text-fg">8x2</span>,{' '}
+        <span className="font-mono text-fg">5,5x3</span> ose{' '}
+        <span className="font-mono text-fg">8x2 + 3x4</span>. Shtyp Enter për ta shtuar.
       </p>
     </div>
   )

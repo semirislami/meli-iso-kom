@@ -56,7 +56,7 @@ export function Sheet({
                 <span className="hidden h-1.5 w-9 rounded-full bg-border sm:hidden" />
                 <h2 className="text-lg font-semibold">{title}</h2>
               </div>
-              <IconButton label="Close" onClick={onClose}>
+              <IconButton label="Mbyll" onClick={onClose}>
                 <X size={20} />
               </IconButton>
             </div>
