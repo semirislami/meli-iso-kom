@@ -12,6 +12,8 @@ import {
   MapPin,
   Calendar,
   StickyNote,
+  Calculator,
+  ChevronRight,
 } from 'lucide-react'
 import { useStore } from '../store/useStore'
 import { useSettings, settingsSnapshot } from '../store/useSettings'
@@ -132,6 +134,25 @@ export function ProjectDetail() {
           </Button>
         </div>
       </motion.div>
+
+      {/* Cost & Profit entry */}
+      <button
+        onClick={() => navigate(`/projects/${project.id}/cost`)}
+        className="mb-4 flex w-full items-center gap-3 rounded-2xl border border-border bg-card p-4 text-left shadow-card transition active:scale-[0.99] hover:border-primary/40"
+      >
+        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent/12 text-accent">
+          <Calculator size={22} />
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="font-semibold">Cost &amp; Profit</div>
+          <div className="text-[13px] text-subtle">
+            {project.calculations && project.calculations.length > 0
+              ? `${project.calculations.length} calculation${project.calculations.length === 1 ? '' : 's'} · materials, expenses, profit`
+              : 'Materials, expenses & profit from your m²'}
+          </div>
+        </div>
+        <ChevronRight size={20} className="shrink-0 text-subtle" />
+      </button>
 
       {/* Project info (collapsible) */}
       <button

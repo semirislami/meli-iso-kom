@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import type { Project, Section, Measurement } from '../types'
+import type { Project, Section, Measurement, CostCalculation } from '../types'
 import { uid } from '../lib/id'
 import { evaluate } from '../lib/calc'
 import { todayISO } from '../lib/format'
@@ -46,6 +46,16 @@ interface ProjectsState {
     sectionId: string,
     measurementId: string
   ) => void
+
+  // Cost & profit calculations
+  addCalculation: (projectId: string, calc: CostCalculation) => void
+  updateCalculation: (
+    projectId: string,
+    calcId: string,
+    patch: Partial<CostCalculation>
+  ) => void
+  deleteCalculation: (projectId: string, calcId: string) => void
+  duplicateCalculation: (projectId: string, calcId: string) => CostCalculation | undefined
 
   // Bulk (used by backup import)
   replaceProjects: (projects: Project[]) => void
@@ -198,6 +208,54 @@ export const useStore = create<ProjectsState>()(
             ),
           })),
         })),
+
+      addCalculation: (projectId, calc) =>
+        set((s) => ({
+          projects: patchProject(s.projects, projectId, (p) => ({
+            ...p,
+            calculations: [calc, ...(p.calculations ?? [])],
+          })),
+        })),
+
+      updateCalculation: (projectId, calcId, patch) =>
+        set((s) => ({
+          projects: patchProject(s.projects, projectId, (p) => ({
+            ...p,
+            calculations: (p.calculations ?? []).map((c) =>
+              c.id === calcId ? { ...c, ...patch, updatedAt: Date.now() } : c
+            ),
+          })),
+        })),
+
+      deleteCalculation: (projectId, calcId) =>
+        set((s) => ({
+          projects: patchProject(s.projects, projectId, (p) => ({
+            ...p,
+            calculations: (p.calculations ?? []).filter((c) => c.id !== calcId),
+          })),
+        })),
+
+      duplicateCalculation: (projectId, calcId) => {
+        const project = get().projects.find((p) => p.id === projectId)
+        const original = project?.calculations?.find((c) => c.id === calcId)
+        if (!original) return undefined
+        const now = Date.now()
+        const copy: CostCalculation = {
+          ...original,
+          id: uid(),
+          createdAt: now,
+          updatedAt: now,
+          materials: original.materials.map((m) => ({ ...m, id: uid() })),
+          expenses: original.expenses.map((e) => ({ ...e, id: uid() })),
+        }
+        set((s) => ({
+          projects: patchProject(s.projects, projectId, (p) => ({
+            ...p,
+            calculations: [copy, ...(p.calculations ?? [])],
+          })),
+        }))
+        return copy
+      },
 
       replaceProjects: (projects) => set({ projects }),
     }),

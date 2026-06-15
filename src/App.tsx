@@ -4,6 +4,8 @@ import { Layout } from './components/Layout'
 import { Dashboard } from './pages/Dashboard'
 import { Projects } from './pages/Projects'
 import { ProjectDetail } from './pages/ProjectDetail'
+import { CostCalculator } from './pages/CostCalculator'
+import { CostEditor } from './pages/CostEditor'
 import { Settings } from './pages/Settings'
 import { ConfirmDialog } from './components/ConfirmDialog'
 import { Toaster } from './components/Toaster'
@@ -25,6 +27,8 @@ function AnimatedRoutes() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/projects/:id" element={<ProjectDetail />} />
+          <Route path="/projects/:id/cost" element={<CostCalculator />} />
+          <Route path="/projects/:id/cost/:calcId" element={<CostEditor />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

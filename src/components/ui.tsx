@@ -1,5 +1,7 @@
 import {
   forwardRef,
+  useEffect,
+  useState,
   type ButtonHTMLAttributes,
   type InputHTMLAttributes,
   type TextareaHTMLAttributes,
@@ -115,6 +117,74 @@ export const Textarea = forwardRef<
   />
 ))
 Textarea.displayName = 'Textarea'
+
+// ── NumberField ──────────────────────────────────────────────────────
+// Owns its own text buffer so decimals/commas type smoothly even while the
+// parent re-renders from the parsed numeric value. Accepts comma or dot.
+function parseLoose(text: string): number {
+  const n = parseFloat(text.replace(',', '.'))
+  return Number.isFinite(n) ? n : 0
+}
+
+interface NumberFieldProps
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'size'> {
+  value: number
+  onValueChange: (n: number) => void
+  align?: 'left' | 'right'
+  prefix?: string
+  suffix?: string
+}
+
+export function NumberField({
+  value,
+  onValueChange,
+  align = 'left',
+  prefix,
+  suffix,
+  className,
+  ...props
+}: NumberFieldProps) {
+  const [text, setText] = useState(value ? String(value) : '')
+
+  // Sync only when the external value diverges from what's typed (e.g. reset).
+  useEffect(() => {
+    if (parseLoose(text) !== value) setText(value ? String(value) : '')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value])
+
+  return (
+    <div className="relative">
+      {prefix && (
+        <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-subtle">
+          {prefix}
+        </span>
+      )}
+      <input
+        inputMode="decimal"
+        autoComplete="off"
+        value={text}
+        onChange={(e) => {
+          setText(e.target.value)
+          onValueChange(parseLoose(e.target.value))
+        }}
+        onFocus={(e) => e.target.select()}
+        className={cn(
+          'input-base h-12 text-base tabular-nums',
+          align === 'right' && 'text-right',
+          prefix && 'pl-8',
+          suffix && 'pr-12',
+          className
+        )}
+        {...props}
+      />
+      {suffix && (
+        <span className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-sm font-medium text-subtle">
+          {suffix}
+        </span>
+      )}
+    </div>
+  )
+}
 
 // ── Field wrapper ────────────────────────────────────────────────────
 export function Field({

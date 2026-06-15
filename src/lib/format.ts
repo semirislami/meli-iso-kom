@@ -24,6 +24,26 @@ function trimTrailing(value: number, maxDecimals: number): string {
   return fixed.includes('.') ? fixed.replace(/\.?0+$/, '') : fixed
 }
 
+/**
+ * Money formatting with thousands separators, always 2 decimals, honoring
+ * the user's decimal-separator preference. `comma` → 12.093,50 — `dot` → 12,093.50.
+ */
+export function formatMoney(value: number, settings: Settings): string {
+  const v = Number.isFinite(value) ? value : 0
+  const negative = v < 0
+  const fixed = Math.abs(v).toFixed(2)
+  const [intPart, decPart] = fixed.split('.')
+  const thouSep = settings.decimalSeparator === 'comma' ? '.' : ','
+  const decSep = settings.decimalSeparator === 'comma' ? ',' : '.'
+  const grouped = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, thouSep)
+  return `${negative ? '-' : ''}${grouped}${decSep}${decPart}`
+}
+
+/** Money with a currency suffix, e.g. "12.093,50 MKD". */
+export function formatCurrency(value: number, currency: string, settings: Settings): string {
+  return `${formatMoney(value, settings)} ${currency}`
+}
+
 export function formatDate(iso: string | number): string {
   if (!iso) return '—'
   const d = typeof iso === 'number' ? new Date(iso) : new Date(iso + 'T00:00:00')

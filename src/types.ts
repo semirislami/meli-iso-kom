@@ -27,6 +27,8 @@ export interface Project {
   date: string
   notes: string
   sections: Section[]
+  /** Saved cost & profit calculations for this project. */
+  calculations?: CostCalculation[]
   createdAt: number
   updatedAt: number
   // ── Future-ready fields (unused today, reserved so the schema is stable) ──
@@ -34,6 +36,63 @@ export interface Project {
   pricePerUnit?: number
   currency?: string
   archived?: boolean
+}
+
+// ── Cost & Profit calculator ─────────────────────────────────────────
+
+/** A single line of additional (non-material) expense, in MKD. */
+export interface ExpenseItem {
+  id: string
+  name: string
+  amount: number
+  notes: string
+}
+
+/**
+ * One material line in a calculation. Two modes:
+ *  - 'auto'   → quantity derived from area (e.g. Mallter: kg → bags), rounded up.
+ *  - 'manual' → user types the quantity (e.g. Llajsne, MP75).
+ * All prices are in MKD.
+ */
+export interface MaterialLine {
+  id: string
+  /** Stable key for the preset, e.g. 'mallter' | 'llajsne' | 'mp75'. */
+  key: string
+  name: string
+  mode: 'auto' | 'manual'
+  /** Label for one purchasable unit: 'bag' | 'piece' | 'unit'. */
+  unitLabel: string
+
+  // auto mode
+  /** kg consumed per m² (auto). */
+  consumptionPerM2?: number
+  /** kg contained in one unit/bag (auto). */
+  unitSize?: number
+
+  // manual mode
+  /** User-entered quantity of units (manual). */
+  quantity?: number
+
+  /** Price of one unit in MKD (both modes). */
+  pricePerUnit: number
+}
+
+/** Work type preset. Only 'mallter' exists today; others are reserved. */
+export type WorkType = 'mallter' | 'fasada' | 'boje' | 'izolim' | 'other'
+
+export interface CostCalculation {
+  id: string
+  workType: WorkType
+  /** m² used for this calc — defaults to the project's measured total. */
+  areaM2: number
+  /** Client price per m², in EUR. */
+  pricePerM2Eur: number
+  /** 1 EUR = N MKD. Default 61.5, editable. */
+  exchangeRate: number
+  materials: MaterialLine[]
+  expenses: ExpenseItem[]
+  createdAt: number
+  updatedAt: number
 }
 
 export type ThemeMode = 'light' | 'dark' | 'system'
