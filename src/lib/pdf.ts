@@ -281,13 +281,24 @@ export function exportCostPdf(project: Project, calc: CostCalculation, settings:
     startY: y,
     margin: { left: margin, right: margin },
     head: [['Materiali', 'Sasia', 'Çmimi për njësi', 'Kosto (MKD)']],
-    body: r.materials.map((m) => [
-      m.line.name +
-        (m.requiredKg !== undefined ? ` (${formatNumber(m.requiredKg, settings)} kg)` : ''),
-      `${m.units} ${m.line.unitLabel}`,
-      `${money(m.line.pricePerUnit)} / ${m.line.unitLabel}`,
-      money(m.cost),
-    ]),
+    body: r.materials.map((m) => {
+      const detail =
+        m.requiredKg !== undefined
+          ? ` (${formatNumber(m.requiredKg, settings)} kg)`
+          : m.line.autoKind === 'volume-bags' && m.volumeM3 !== undefined
+            ? ` (${formatNumber(m.volumeM3, settings)} m³ zalli)`
+            : ''
+      const qty =
+        m.line.autoKind === 'volume'
+          ? `${formatNumber(m.volumeM3 ?? 0, settings)} ${m.line.unitLabel}`
+          : `${m.units} ${m.line.unitLabel}`
+      return [
+        m.line.name + detail,
+        qty,
+        `${money(m.line.pricePerUnit)} / ${m.line.unitLabel}`,
+        money(m.cost),
+      ]
+    }),
     foot: [['', '', 'Totali i materialeve', money(r.materialCostMkd)]],
     theme: 'grid',
     styles: { font: 'helvetica', fontSize: 9.5, cellPadding: 6, textColor: INK, lineColor: LINE, lineWidth: 0.5 },

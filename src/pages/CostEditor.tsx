@@ -14,7 +14,7 @@ import { useStore } from '../store/useStore'
 import { useSettings, settingsSnapshot } from '../store/useSettings'
 import { useUI } from '../store/useUI'
 import { projectTotal } from '../lib/calc'
-import { computeCost, WORK_TYPES } from '../lib/cost'
+import { computeCost, WORK_TYPES, materialsForWorkType } from '../lib/cost'
 import type { CostCalculation, ExpenseItem, MaterialLine, WorkType } from '../types'
 import { formatMoney, formatNumber } from '../lib/format'
 import { exportCostPdf } from '../lib/pdf'
@@ -259,9 +259,9 @@ export function CostEditor() {
   )
 
   function switchWorkType(key: WorkType) {
-    // For now only mallter has presets; keep existing materials if already set.
     if (key === calc!.workType) return
-    patch({ workType: key })
+    // Load the material preset for the new work type.
+    patch({ workType: key, materials: materialsForWorkType(key) })
     toast(`Lloji i punës: ${WORK_TYPES.find((w) => w.key === key)?.label}`)
   }
 }
@@ -288,36 +288,99 @@ function MaterialCard({
       </div>
 
       {line.mode === 'auto' ? (
-        <div className="mt-3 space-y-3">
-          <div className="grid grid-cols-3 gap-2 text-center">
-            <Stat label="Nevojiten" value={`${formatNumber(result.requiredKg ?? 0, settings)} kg`} />
-            <Stat label="Thasë (↑)" value={`${result.units}`} highlight />
-            <Stat label="për m²" value={`${formatNumber(line.consumptionPerM2 ?? 0, settings)} kg`} />
+        line.autoKind === 'volume' ? (
+          // Zalli — volume in m³
+          <div className="mt-3 space-y-3">
+            <div className="grid grid-cols-2 gap-2 text-center">
+              <Stat
+                label="Vëllimi"
+                value={`${formatNumber(result.volumeM3 ?? 0, settings)} m³`}
+                highlight
+              />
+              <Stat label="m³ për m²" value={formatNumber(line.consumptionPerM2 ?? 0, settings)} />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <Field label="Çmimi / m³ (MKD)">
+                <NumberField
+                  value={line.pricePerUnit}
+                  onValueChange={(n) => onChange({ pricePerUnit: n })}
+                  align="right"
+                />
+              </Field>
+              <Field label="m³ për m²">
+                <NumberField
+                  value={line.consumptionPerM2 ?? 0}
+                  onValueChange={(n) => onChange({ consumptionPerM2: n })}
+                  align="right"
+                />
+              </Field>
+            </div>
           </div>
-          <div className="grid grid-cols-2 gap-3">
-            <Field label="Madhësia e thesit (kg)">
+        ) : line.autoKind === 'volume-bags' ? (
+          // Betoni — bags derived from gravel m³
+          <div className="mt-3 space-y-3">
+            <div className="grid grid-cols-3 gap-2 text-center">
+              <Stat label="Zalli" value={`${formatNumber(result.volumeM3 ?? 0, settings)} m³`} />
+              <Stat label="Thasë (↑)" value={`${result.units}`} highlight />
+              <Stat label="thes/m³" value={formatNumber(line.bagsPerM3 ?? 0, settings)} />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <Field label="Çmimi / thes (MKD)">
+                <NumberField
+                  value={line.pricePerUnit}
+                  onValueChange={(n) => onChange({ pricePerUnit: n })}
+                  align="right"
+                />
+              </Field>
+              <Field label="Thasë për m³">
+                <NumberField
+                  value={line.bagsPerM3 ?? 0}
+                  onValueChange={(n) => onChange({ bagsPerM3: n })}
+                  align="right"
+                />
+              </Field>
+            </div>
+            <Field label="m³ zalli për m²">
               <NumberField
-                value={line.unitSize ?? 0}
-                onValueChange={(n) => onChange({ unitSize: n })}
+                value={line.consumptionPerM2 ?? 0}
+                onValueChange={(n) => onChange({ consumptionPerM2: n })}
                 align="right"
               />
             </Field>
-            <Field label="Çmimi / thes (MKD)">
+          </div>
+        ) : (
+          // Mallter — kg → bags
+          <div className="mt-3 space-y-3">
+            <div className="grid grid-cols-3 gap-2 text-center">
+              <Stat label="Nevojiten" value={`${formatNumber(result.requiredKg ?? 0, settings)} kg`} />
+              <Stat label="Thasë (↑)" value={`${result.units}`} highlight />
+              <Stat label="për m²" value={`${formatNumber(line.consumptionPerM2 ?? 0, settings)} kg`} />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <Field label="Madhësia e thesit (kg)">
+                <NumberField
+                  value={line.unitSize ?? 0}
+                  onValueChange={(n) => onChange({ unitSize: n })}
+                  align="right"
+                />
+              </Field>
+              <Field label="Çmimi / thes (MKD)">
+                <NumberField
+                  value={line.pricePerUnit}
+                  onValueChange={(n) => onChange({ pricePerUnit: n })}
+                  align="right"
+                />
+              </Field>
+            </div>
+            <Field label="Konsumi (kg për m²)">
               <NumberField
-                value={line.pricePerUnit}
-                onValueChange={(n) => onChange({ pricePerUnit: n })}
+                value={line.consumptionPerM2 ?? 0}
+                onValueChange={(n) => onChange({ consumptionPerM2: n })}
                 align="right"
               />
             </Field>
           </div>
-          <Field label="Konsumi (kg për m²)">
-            <NumberField
-              value={line.consumptionPerM2 ?? 0}
-              onValueChange={(n) => onChange({ consumptionPerM2: n })}
-              align="right"
-            />
-          </Field>
-        </div>
+        )
       ) : (
         <div className="mt-3 grid grid-cols-2 gap-3">
           <Field label={`Sasia (${line.unitLabel})`}>

@@ -60,16 +60,25 @@ export interface MaterialLine {
   key: string
   name: string
   mode: 'auto' | 'manual'
-  /** Label for one purchasable unit: 'bag' | 'piece' | 'unit'. */
+  /** Label for one purchasable unit: 'thes' | 'copë' | 'njësi' | 'm³'. */
   unitLabel: string
 
-  // auto mode
-  /** kg consumed per m² (auto). */
+  // ── auto mode ──
+  /**
+   * Which auto formula to apply (defaults to 'kg-bags'):
+   *  - 'kg-bags'     → kg = area × consumptionPerM2; bags = ⌈kg ÷ unitSize⌉ (Mallter)
+   *  - 'volume'      → m³ = area × consumptionPerM2; priced per m³ (Zalli)
+   *  - 'volume-bags' → m³ = area × consumptionPerM2; bags = ⌈m³ × bagsPerM3⌉ (Betoni)
+   */
+  autoKind?: 'kg-bags' | 'volume' | 'volume-bags'
+  /** Amount per m²: kg/m² for 'kg-bags', m³/m² for the volume kinds. */
   consumptionPerM2?: number
-  /** kg contained in one unit/bag (auto). */
+  /** kg contained in one bag (kg-bags). */
   unitSize?: number
+  /** Bags produced per m³ (volume-bags). */
+  bagsPerM3?: number
 
-  // manual mode
+  // ── manual mode ──
   /** User-entered quantity of units (manual). */
   quantity?: number
 
@@ -77,8 +86,8 @@ export interface MaterialLine {
   pricePerUnit: number
 }
 
-/** Work type preset. Only 'mallter' exists today; others are reserved. */
-export type WorkType = 'mallter' | 'fasada' | 'boje' | 'izolim' | 'other'
+/** Work type preset. 'mallter' and 'kushulica' exist today; others reserved. */
+export type WorkType = 'mallter' | 'kushulica' | 'fasada' | 'boje' | 'izolim' | 'other'
 
 export interface CostCalculation {
   id: string
